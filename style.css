@@ -1,0 +1,100 @@
+:root {
+  --background: #e3fafc;
+  --dark: #081b1f;
+  --light: #fcc419;
+  --accent: #22b8cf;
+
+  --operators: #a5e6f1;
+}
+
+html {
+  width: 100dvw;
+  height: 100dvh;
+  box-sizing: border-box;
+  font-size: 62.5%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  background-color: var(--background);
+}
+
+.container {
+  flex-direction: column;
+  border: 8px solid var(--accent);
+  border-radius: 6px;
+  background-color: var(--accent);
+}
+
+.screen {
+  width: 100%;
+  height: 75px;
+  background-color: var(--dark);
+  color: var(--light);
+  font-size: 4rem;
+  justify-content: right;
+  letter-spacing: 0.5rem;
+}
+
+row {
+  display: flex;
+  width: 100%;
+  height: 75px;
+}
+
+button {
+  display: inline-block;
+  width: 75px;
+  height: 75px;
+  color: var(--dark);
+  background-color: var(--light);
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.equals {
+  width: 150px;
+}
+
+.first button,
+.last button,
+.operator {
+  background-color: var(--operators);
+}
+
+button.zero {
+  background-color: var(--light);
+}
+
+@media only screen and (max-width: 320px) {
+  .screen {
+    font-size: 3.2rem;
+  }
+
+  button {
+    width: 65px;
+    height: 65px;
+    font-size: 2.5rem;
+  }
+
+  .equals {
+    width: 130px;
+  }
+}
