@@ -55,6 +55,19 @@ const backspace = () => {
   }
 };
 
+const percent = (value) => {
+  let toDisplay = +value / 100;
+
+  if (toDisplay.toString().length > 11) {
+    displayVal.textContent = toDisplay.toExponential();
+  }
+  if (toDisplay % 1 !== 0) {
+    toDisplay = +toDisplay.toString().substring(0, 11);
+    displayVal.textContent = toDisplay.toFixed(2);
+  }
+  displayVal.textContent = toDisplay;
+};
+
 const buttons = document.querySelectorAll("button");
 buttons.forEach((button) => {
   button.addEventListener("click", (e) => {
@@ -67,6 +80,9 @@ buttons.forEach((button) => {
     }
     if (e.target.classList.contains("backspace")) {
       backspace();
+    }
+    if (e.target.classList.contains("percent")) {
+      percent(displayVal.textContent);
     }
   });
 });
