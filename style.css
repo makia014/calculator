@@ -5,6 +5,10 @@
   --accent: #22b8cf;
 
   --operators: #a5e6f1;
+  --operators-hover: #c9f4fc;
+  --operators--active: #b5dbe2;
+  --light-hover: #ffe186;
+  --light-active: #e7cc7c;
 }
 
 html {
@@ -69,18 +73,29 @@ button {
   font-weight: 700;
 }
 
+button:hover {
+  cursor: pointer;
+  background-color: var(--light-hover);
+}
+
+button:active {
+  background-color: var(--light-active);
+}
+
 .equals {
   width: 150px;
 }
 
-.first button,
-.last button,
 .operator {
   background-color: var(--operators);
 }
 
-button.zero {
-  background-color: var(--light);
+.operator:hover {
+  background-color: var(--operators-hover);
+}
+
+.operator:active {
+  background-color: var(--operators--active);
 }
 
 @media only screen and (max-width: 320px) {
