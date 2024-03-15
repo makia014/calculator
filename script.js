@@ -21,23 +21,22 @@ const operate = (a, operator, b) => {
 };
 
 const displayVal = document.querySelector(".screen");
+let onScreen = "";
 
 const addToScreen = (val) => {
   if (displayVal.textContent.length < 11) {
-    if (displayVal.textContent == 0 && val == 0) {
-      displayVal.textContent = 0;
-    } else if (displayVal.textContent == 0) {
-      displayVal.textContent = val;
+    if (onScreen == "" || onScreen == 0) {
+      onScreen = val;
     } else {
-      displayVal.textContent += val;
+      onScreen += val;
     }
-  } else {
   }
+
+  displayVal.textContent = onScreen;
 };
 
-addToScreen(0);
-
 const clearScreen = () => {
+  onScreen = "";
   displayVal.textContent = "0";
   operandA = "";
   operatorSymbol = "";
@@ -45,6 +44,16 @@ const clearScreen = () => {
 };
 
 clearScreen();
+
+const backspace = () => {
+  if (displayVal.textContent.length == 1) {
+    displayVal.textContent = 0;
+  } else {
+    displayVal.textContent = displayVal.textContent
+      .toString()
+      .substring(0, displayVal.textContent.length - 1);
+  }
+};
 
 const buttons = document.querySelectorAll("button");
 buttons.forEach((button) => {
@@ -55,6 +64,9 @@ buttons.forEach((button) => {
     }
     if (e.target.classList.contains("clear")) {
       clearScreen();
+    }
+    if (e.target.classList.contains("backspace")) {
+      backspace();
     }
   });
 });
