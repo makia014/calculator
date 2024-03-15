@@ -47,11 +47,13 @@ clearScreen();
 
 const backspace = () => {
   if (displayVal.textContent.length == 1) {
-    displayVal.textContent = 0;
+    onScreen = 0;
+    displayVal.textContent = onScreen;
   } else {
-    displayVal.textContent = displayVal.textContent
+    onScreen = displayVal.textContent
       .toString()
       .substring(0, displayVal.textContent.length - 1);
+    displayVal.textContent = onScreen;
   }
 };
 
@@ -66,6 +68,13 @@ const percent = (value) => {
     displayVal.textContent = toDisplay.toFixed(2);
   }
   displayVal.textContent = toDisplay;
+};
+
+const decimal = (value) => {
+  let currentValue = displayVal.textContent.toString();
+  if (!currentValue.includes(".") && currentValue.length < 9) {
+    addToScreen(".");
+  }
 };
 
 const buttons = document.querySelectorAll("button");
@@ -83,6 +92,9 @@ buttons.forEach((button) => {
     }
     if (e.target.classList.contains("percent")) {
       percent(displayVal.textContent);
+    }
+    if (e.target.classList.contains("decimal")) {
+      decimal(displayVal.textContent);
     }
   });
 });
