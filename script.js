@@ -1,7 +1,7 @@
 const add = (a, b) => +a + +b;
 const subtract = (a, b) => a - b;
 const multiply = (a, b) => a * b;
-const divide = (a, b) => (b == 0 ? "Error" : a / b);
+const divide = (a, b) => a / b;
 
 let operandA;
 let operatorSymbol;
@@ -21,7 +21,7 @@ const operate = (a, operator, b) => {
 };
 
 const displayVal = document.querySelector(".screen");
-let onScreen = "";
+let onScreen;
 
 const addToScreen = (val) => {
   if (displayVal.textContent.length < 11) {
@@ -57,15 +57,19 @@ const backspace = () => {
 };
 
 const checkValueForScreen = (val) => {
-  if (val.toString().length > 11) {
-    val = +val.toString().substring(0, 11);
+  if (String(val).length > 11) {
+    val = +String(val).substring(0, 11);
     onScreen = val.toExponential();
   }
   if (val % 1 !== 0) {
-    val = +val.toString().substring(0, 11);
+    val = +String(val).substring(0, 11);
     onScreen = val.toFixed(2);
   }
   onScreen = val;
+
+  if (operatorSymbol === "/" && operandB === 0) {
+    onScreen = "ERROR";
+  }
 
   displayVal.textContent = onScreen;
 };
@@ -76,12 +80,14 @@ const percent = (value) => {
   checkValueForScreen(toDisplay);
 };
 
-const decimal = (value) => {
+const decimal = () => {
   let currentValue = displayVal.textContent.toString();
   if (!currentValue.includes(".") && currentValue.length < 9) {
     addToScreen(".");
   }
 };
+
+let symbolArr = [];
 
 const buttons = document.querySelectorAll("button");
 buttons.forEach((button) => {
@@ -100,9 +106,10 @@ buttons.forEach((button) => {
       percent(displayVal.textContent);
     }
     if (e.target.classList.contains("decimal")) {
-      decimal(displayVal.textContent);
+      decimal();
     }
     if (e.target.classList.contains("operatorMain")) {
+      symbolArr.push(e.target.textContent);
       onScreen = displayVal.textContent;
       if (!operandA) {
         operatorSymbol = e.target.textContent;
@@ -111,15 +118,35 @@ buttons.forEach((button) => {
       } else {
         operandB = +onScreen;
 
-        let result = operate(operandA, operatorSymbol, operandB);
-        checkValueForScreen(result);
-
+        if (operatorSymbol) {
+          let result = operate(operandA, operatorSymbol, operandB);
+          checkValueForScreen(result);
+        }
         operandA = onScreen;
         operatorSymbol = e.target.textContent;
         operandB = "";
       }
 
       onScreen = "";
+    }
+    if (e.target.classList.contains("equals")) {
+      symbolArr.push(e.target.textContent);
+
+      onScreen = displayVal.textContent;
+      if (!operandA) {
+        clearScreen();
+      } else {
+        operandB = +onScreen;
+        let result = operate(operandA, operatorSymbol, operandB);
+        checkValueForScreen(result);
+        operandA = +displayVal.textContent;
+        operandB = "";
+        operatorSymbol = "";
+      }
+      if (symbolArr[symbolArr.length - 2] === "=") {
+        clearScreen();
+        return;
+      }
     }
   });
 });
