@@ -1,7 +1,7 @@
-const add = (a, b) => a + b;
+const add = (a, b) => +a + +b;
 const subtract = (a, b) => a - b;
 const multiply = (a, b) => a * b;
-const divide = (a, b) => a / b;
+const divide = (a, b) => (b == 0 ? "Error" : a / b);
 
 let operandA;
 let operatorSymbol;
@@ -48,26 +48,32 @@ clearScreen();
 const backspace = () => {
   if (displayVal.textContent.length == 1) {
     onScreen = 0;
-    displayVal.textContent = onScreen;
   } else {
     onScreen = displayVal.textContent
       .toString()
       .substring(0, displayVal.textContent.length - 1);
-    displayVal.textContent = onScreen;
   }
+  displayVal.textContent = onScreen;
+};
+
+const checkValueForScreen = (val) => {
+  if (val.toString().length > 11) {
+    val = +val.toString().substring(0, 11);
+    onScreen = val.toExponential();
+  }
+  if (val % 1 !== 0) {
+    val = +val.toString().substring(0, 11);
+    onScreen = val.toFixed(2);
+  }
+  onScreen = val;
+
+  displayVal.textContent = onScreen;
 };
 
 const percent = (value) => {
   let toDisplay = +value / 100;
 
-  if (toDisplay.toString().length > 11) {
-    displayVal.textContent = toDisplay.toExponential();
-  }
-  if (toDisplay % 1 !== 0) {
-    toDisplay = +toDisplay.toString().substring(0, 11);
-    displayVal.textContent = toDisplay.toFixed(2);
-  }
-  displayVal.textContent = toDisplay;
+  checkValueForScreen(toDisplay);
 };
 
 const decimal = (value) => {
@@ -95,6 +101,25 @@ buttons.forEach((button) => {
     }
     if (e.target.classList.contains("decimal")) {
       decimal(displayVal.textContent);
+    }
+    if (e.target.classList.contains("operatorMain")) {
+      onScreen = displayVal.textContent;
+      if (!operandA) {
+        operatorSymbol = e.target.textContent;
+        operandA = +onScreen;
+        onScreen = "";
+      } else {
+        operandB = +onScreen;
+
+        let result = operate(operandA, operatorSymbol, operandB);
+        checkValueForScreen(result);
+
+        operandA = onScreen;
+        operatorSymbol = e.target.textContent;
+        operandB = "";
+      }
+
+      onScreen = "";
     }
   });
 });
