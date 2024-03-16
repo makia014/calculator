@@ -111,7 +111,7 @@ buttons.forEach((button) => {
     if (e.target.classList.contains("operatorMain")) {
       symbolArr.push(e.target.textContent);
       onScreen = displayVal.textContent;
-      if (!operandA) {
+      if (operandA === null) {
         operatorSymbol = e.target.textContent;
         operandA = +onScreen;
         onScreen = "";
