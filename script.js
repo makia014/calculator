@@ -25,7 +25,10 @@ let onScreen;
 
 const addToScreen = (val) => {
   if (displayVal.textContent.length < 11) {
-    if (onScreen == "" || onScreen == 0) {
+    if (val[val.length - 1] === ".") {
+      onScreen = "0";
+    }
+    if (onScreen == "") {
       onScreen = val;
     } else {
       onScreen += val;
