@@ -25,10 +25,7 @@ let onScreen;
 
 const addToScreen = (val) => {
   if (displayVal.textContent.length < 11) {
-    if (val[val.length - 1] === ".") {
-      onScreen = "0";
-    }
-    if (onScreen == "") {
+    if (onScreen == "" || onScreen == 0) {
       onScreen = val;
     } else {
       onScreen += val;
@@ -61,12 +58,12 @@ const backspace = () => {
 
 const checkValueForScreen = (val) => {
   if (String(val).length > 11) {
-    val = +String(val).substring(0, 11);
-    onScreen = val.toExponential();
-  }
-  if (val % 1 !== 0) {
-    val = +String(val).substring(0, 11);
-    onScreen = val.toFixed(2);
+    val = val.toExponential(2);
+
+    if (val % 1 !== 0) {
+      val = +String(val).substring(0, 11);
+      val = val.toFixed(2);
+    }
   }
   onScreen = val;
 
